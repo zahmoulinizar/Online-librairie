@@ -1,71 +1,131 @@
-import React, { useState } from "react";
-import { Container} from "react-bootstrap";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { Container, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import {AiOutlineCheck} from "react-icons/ai";
-import {CgUnavailable} from "react-icons/cg";
+import { AiOutlineCheck } from "react-icons/ai";
+import { CgUnavailable } from "react-icons/cg";
+import { Link } from "react-router-dom";
+import { AiOutlineEye } from "react-icons/ai";
+
+import axios from "axios";
 
 export default function OurStore() {
-  const  [quantity , setQuantity] = useState(0)
-  const  [category , setCategory] = useState()
-  const products = useSelector((state) => state.prod.products);
+  const [sums, setSums] = useState([]);
+  const prod = useSelector((state) => state.prod.products);
+
+
+  useEffect(() => {
+    // Make an HTTP request to fetch the sums of data
+    axios
+      .get(process.env.REACT_APP_BASE_URL +"/prod/sumCategory")
+      .then((response) => {
+        setSums(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+  ///
+  const [category, setCategory] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  console.log(searchResults)
+
+
+  useEffect(() => {
+    // Make an HTTP request to search by category
+    axios
+      .get(process.env.REACT_APP_BASE_URL +"/prod/search-by-category", {
+        params: { category },
+      })
+      .then((response) => {
+        setSearchResults(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div>
-      <div className="d-flex justify-content-end me-5">
-        <ButtonGroup size="sm">
-          <Button>Left</Button>
-          <Button>Middle</Button>
-          <Button>Right</Button>
-        </ButtonGroup>
-      </div>
+      <Container className="d-flex justify-content-center">
+        <Form className="d-flex">
+          <Form.Select
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            placeholder="Enter category"
+          >
+            <option>Select your category</option>
+            <option value="Tunisien edition book">Tunisien edition book</option>
+            <option value="Arabic edition book">Arabic edition book</option>
+            <option value="French edition book">French edition book</option>
+            <option value="book in english">book in english</option>
+            <option value="school and pedagogical book">
+              school and pedagogical book
+            </option>
+          </Form.Select>
+        </Form>
+      </Container>
       <Container className="d-flex justify-content-between border border-2 ">
-        <div className="m-3">
-          {products.category  && products.map((prod) => (
-            <ListGroup className="d-flex flex-column gap-3" key={prod._id}>
-               <ListGroup.Item
-                className="mb-2  d-flex  justify-content-between gap-3 text-capitalize"
-                style={{ color: "#85144b" }}
+        <ListGroup className="d-flex flex-column mt-3  gap-3 rounded-5">
+          {sums.map((sum, index) => (
+            <ListGroup.Item
+              key={index}
+              className="d-flex justify-content-between gap-3 rounded-5"
+              style={{ width: "300px" }}
+            >
+              <span>{sum._id}</span>
+              <small
+                className="rounded-9 d-flex align-items-center justify-content-center shadow-1-strong text-white"
+                style={{
+                  width: "60px",
+                  height: "35px",
+                  backgroundColor: "#001f3f",
+                }}
               >
-               {prod.category} 
-                <span
-                  className="ms-1 d-flex align-items-center justify-content-center rounded-circle "
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    backgroundColor: "#001f3f",
-                  }}
-                >
-                  <p className="text-white mb-0 small">{prod.quantity+quantity}</p>
-                </span>
-              </ListGroup.Item>
-            </ListGroup>
+                {sum.total}
+              </small>
+            </ListGroup.Item>
           ))}
-        </div>
-        <div className="d-flex  flex-wrap justify-content-between gap-3 m-2 p-2 border border-2" style={{ width: "60rem" }}>
-          {products.map((prod) => (
-            <Card style={{ width: "18rem" }} key={prod._id} className="border border-2 p-2 text-center">
-              <Card.Title >{prod.title}</Card.Title>
+        </ListGroup>
+
+        <div className="d-md-flex align-items-md-center flex-wrap gap-md-0 gap-1  mb-3 flex-md-row flex-column  justify-content-md-center row border border-2">
+          {searchResults.map((result, index) => (
+            // Display the relevant field from the search results
+            <Card
+              style={{ width: "19rem" }}
+              key={index}
+              className="border border-2 p-2 text-center"
+            >
+              <Card.Title>{result.title}</Card.Title>
               <Card.Img
                 variant="top"
-                src={prod.image.url}
-                alt={prod.title}
+                src={result.image.url}
+                alt={result.title}
                 width="100%"
                 height="350"
               />
               <Card.Body>
-                <Card.Title className="text-muted">{prod.publisher}</Card.Title>
-                <Card.Title>{prod.price}</Card.Title>
-                <Card.Title>{prod.quantity > 0 ? (
-                      <span className="text-success"> <AiOutlineCheck/> Available </span>
-                      ) : (
-                        <span className="text-danger"><CgUnavailable/> unavailable</span>
-                        )}</Card.Title>
-
-                {prod.quantity===0  ? 
-                  (<Button variant="primary" className="cursor-na" disabled>read more</Button>) : (<Button variant="primary">read more</Button>)}
+                <Card.Title className="text-muted">
+                  {result.category}
+                </Card.Title>
+                <Card.Title>${result.price}</Card.Title>
+                <Card.Title>
+                  {result.quantity > 0 ? (
+                    <span className="text-success">
+                      {" "}
+                      <AiOutlineCheck /> Available{" "}
+                    </span>
+                  ) : (
+                    <span className="text-danger">
+                      <CgUnavailable /> unavailable
+                    </span>
+                  )}
+                </Card.Title>
               </Card.Body>
             </Card>
           ))}

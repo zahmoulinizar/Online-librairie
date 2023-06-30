@@ -6,20 +6,23 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { updateUser } from '../redux/Slice/userSlice';
 import { useDispatch } from 'react-redux';
 import Form from 'react-bootstrap/Form';
-import {Container} from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 export default function Profile() {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [image ,setImage] = useState('')
   const [isEdit , setIsEdit] = useState(false)
-  const user = {name, password,image};
+  const user = {name, password ,phone,address,image};
   const [users, setUsers] = useState([]);
   function getUsers() {
     axios
-      .get("http://localhost:8000/user/Profile", {
+      .get(process.env.REACT_APP_BASE_URL +"/user/Profile", {
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
@@ -57,23 +60,26 @@ export default function Profile() {
  
   return (
    <Container className="mt-5 pt-5">
-    <Card style={{ width: '25rem' }} className='me-auto'>
-      <Card.Img variant="top" src={users.image?.secure_url} height={300} width={300} />
+    <Card style={{ width: '80rem' }} className='me-auto'>
+      <Row>
+        <Col className='col-5' >
+      <Card.Img variant="top" src={users.image?.secure_url}  />
+      </Col>
+      <Col className='col-7' >
      
       <Card.Body>
-        <Card.Title>Profile</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-      </Card.Body>
-      <ListGroup className="list-group-flush">
+        <Card.Title  className='ms-4'>Profile</Card.Title>
+  
+      <ListGroup className="list-group-flush w-50  m-2 ">
         <ListGroup.Item>{users.name}</ListGroup.Item>
         <ListGroup.Item>{users.email}</ListGroup.Item>
+        <ListGroup.Item>{users.address}</ListGroup.Item>
+        <ListGroup.Item>{users.phone}</ListGroup.Item>
       </ListGroup>
-      <Card.Body>
-        <Button onClick={()=>setIsEdit(true)}>Update Profile</Button>
+        <Link onClick={()=>setIsEdit(true)}>Update Profile</Link>
       </Card.Body>
+     
+      
       <div>
         {isEdit && (
           <Form className="m-4 p-3" style={{ width: '25rem' , height:'25rem' ,  borderRadius:'8px'}}>
@@ -91,6 +97,20 @@ export default function Profile() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
+          <Form.Group className="mb-3" controlId="formGroupPassword">
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formGroupPassword">
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="formGroupImage">
             <Form.Label>Image</Form.Label>
             <Form.Control
@@ -105,6 +125,8 @@ export default function Profile() {
           </Form>
         )}
       </div>
+      </Col>
+      </Row>
     </Card>
 
    </Container>

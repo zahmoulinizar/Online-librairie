@@ -5,14 +5,13 @@ import { loginItem } from "../redux/Slice/userSlice";
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import video1 from "../Assets/video/Library books,No Copyright, Copyright Free Video, Motion Graphics, Background Video.mp4"
+//import video1 from "../Assets/video/Library books,No Copyright, Copyright Free Video, Motion Graphics, Background Video.mp4"
 export default function Login() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [role, setRole] = useState();
   const user = {email, password,role };
-  console.log(user)
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,24 +24,13 @@ export default function Login() {
   const loginHandler = (e) => {
     e.preventDefault();
     dispatch(loginItem(user));
-    setEmail('')
-    setPassword('')
+    
   };
   return (
-    <div className="w-100">
-        <video className="w-100 h-75" autoPlay loop muted>
-      <source
-        src={video1}
-        type="video/mp4"
-        allowFullScreen
-        width='100%'
-
-      />
-    </video>
-    <Container fluid className="m-auto top-0 position-relative bg" style={{ position: 'absolute ', top: '0' ,left: '80%' ,
-    transform: 'translate(-50%, -750px)'}}>
+    <div className="w-100">       
+    <Container fluid className="m-auto top-0 position-relative bg" >
       
-      <Form className="p-3 bg-secondary" style={{ width: '25rem' , height:'25rem' ,  borderRadius:'8px'}}>
+      <Form className="p-3 bg-secondary">
         <Form.Group className="mb-3" controlId="formGroupEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control

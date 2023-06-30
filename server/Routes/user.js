@@ -14,7 +14,7 @@ const { isValid } = require("../Midellwaires/isValid");
 // register
 //http://localhost:8000/user/register
 router.post("/register",async (req, res) => {
-  let { name, email, password, role , phone , address, image} = req.body;
+  let { name, email, password, role , phone , address , image} = req.body;
   try {
     let user = await User.findOne({ email });
     if (user) {
@@ -174,13 +174,14 @@ router.post('/:userID/validate-code',isValid , async (req, res) => {
   }
 })
 // update password
-router.put("/update-password/:id", isAuth, async (req, res) => {
-  const  id  = res.User._id;
-  const {  password } = req.body;
+router.put("/update-password/:userID", isAuth, async (req, res) => {
+  const id = req.params.userID
+  const {password}  = req.body;
   try {
     const user = await User.findById(id);
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword 
+    console.log(user)
+    const hashPassword = await bcrypt.hash(password, 10);
+    user.password = hashPassword 
     await user.save();
     res.status(200).json({ message: "password updated successfully",user });
   } catch (error) {

@@ -25,6 +25,7 @@ export default function AddProduct() {
   const [publisher, setPublisher] = useState("");
   const [editionYear, setEditionYear] = useState("");
   const [author, setAuthor] = useState("");
+  const [codPromo, setCodPromo] = useState("");
   const [image, setImage] = useState("");
   const [show, setShow] = useState(false);
   const product = {
@@ -37,6 +38,7 @@ export default function AddProduct() {
     editionYear,
     author,
     publisher,
+    codPromo,
     image,
   };
   const handleClose = () => setShow(false);
@@ -109,11 +111,12 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Title</Form.Label>
+                      <Form.Label>Title <span className="text-danger"> * </span></Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Title"
                         autoFocus
+                        required
                         onChange={(e) => setTitle(e.target.value)}
                       />
                     </Form.Group>
@@ -125,11 +128,12 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Genre</Form.Label>
+                      <Form.Label>Genre <span className="text-danger"> * </span></Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Genre"
                         autoFocus
+                        required
                         onChange={(e) => setGenre(e.target.value)}
                       />
                     </Form.Group>
@@ -139,11 +143,12 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Publisher</Form.Label>
+                      <Form.Label>Publisher <span className="text-danger"> * </span></Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Publisher"
                         autoFocus
+                        required
                         onChange={(e) => setPublisher(e.target.value)}
                       />
                     </Form.Group>
@@ -153,11 +158,12 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Author</Form.Label>
+                      <Form.Label>Author <span className="text-danger"> * </span></Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Author"
                         autoFocus
+                        required
                         onChange={(e) => setAuthor(e.target.value)}
                       />
                     </Form.Group>
@@ -169,11 +175,12 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Category</Form.Label>
+                      <Form.Label>Category <span className="text-danger"> * </span></Form.Label>
 
                       <Form.Select
                         aria-label="Default select example"
                         onChange={(e) => setCategory(e.target.value)}
+                        required
                       >
                         <option>Select your category</option>
                         <option value="Tunisien edition book">
@@ -197,10 +204,11 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Price</Form.Label>
+                      <Form.Label>Price <span className="text-danger"> * </span></Form.Label>
                       <Form.Control
                         type="number"
                         placeholder="price"
+                        required
                         autoFocus
                         onChange={(e) => setPrice(e.target.value)}
                       />
@@ -211,10 +219,11 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Quantity</Form.Label>
+                      <Form.Label>Quantity <span className="text-danger"> * </span></Form.Label>
                       <Form.Control
                         type="number"
                         placeholder="Quantity"
+                        required
                         autoFocus
                         onChange={(e) => setQuantity(e.target.value)}
                       />
@@ -250,15 +259,30 @@ export default function AddProduct() {
                       className="mb-3"
                       controlId="exampleForm.ControlInput1"
                     >
-                      <Form.Label>Year of edition </Form.Label>
+                      <Form.Label>Year of edition <span className="text-danger"> * </span> </Form.Label>
                       <Form.Control
                         type="number"
                         placeholder="Year of edition"
                         autoFocus
+                        required
                         onChange={(e) => setEditionYear(e.target.value)}
                       />
                     </Form.Group>
                   </Col>
+                  <Col>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label>Promotion </Form.Label>
+                      <Form.Control
+                        type="number"
+                        placeholder="Promotion"
+                        autoFocus
+                        onChange={(e) => setCodPromo(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>{" "}
                   <Col>
                     <Form.Group
                       className="mb-3"
@@ -308,6 +332,7 @@ export default function AddProduct() {
                 <th>Price</th>
                 <th>Year of edition </th>
                 <th>state</th>
+                <th>codPromo</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -340,6 +365,7 @@ export default function AddProduct() {
                       <span>unavailable</span>
                     )}
                   </td>
+                  <td>{product.codPromo}</td>
                   <td>
                     <span>
                       <Link to={`/Prod-details/${product._id}`}>

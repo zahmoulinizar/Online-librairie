@@ -5,11 +5,15 @@ import { Card, Container } from "react-bootstrap";
 import video2 from "../Assets/video/Sans titre.mp4";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../redux/Slice/ProdSlice";
+import { addtoCart} from "../redux/Slice/cartSlice";
 import { AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Image from 'react-bootstrap/Image';
 import { AiOutlineCheck } from "react-icons/ai";
+import {AiOutlineShoppingCart } from "react-icons/ai";
 import { CgUnavailable } from "react-icons/cg";
+import New from "./New";
+import Promotion from "./Promotion";
 export default function Home() {
   const dispatch = useDispatch();
 
@@ -26,7 +30,7 @@ export default function Home() {
         // header section
       }
       <section className="d-lg-flex justify-content-between  d-block">
-        <div className="">
+        <div >
           <Image src={banner}   alt="" height="100%"/>;
         </div>
         <div className="h-100 border border-2" style={{ height: "600px" }}>
@@ -43,14 +47,14 @@ export default function Home() {
         <div className="mt-2 ">
           <h2
             style={{ color: "#85144b" }}
-            className=" bg-white text-uppercase text-center mb-3"
+            className=" bg-white text-uppercase text-center m-3 "
           >
-            our Product
+            our books
           </h2>
-          <div className="d-md-flex align-items-md-center flex-wrap gap-md-0 gap-2  mb-3 flex-md-row flex-column  justify-content-md-between row">
+          <div className="d-md-flex align-items-md-center flex-wrap gap-md-0 gap-2  mb-3 flex-md-row flex-column  justify-content-md-center row">
             {prod.slice(0, 6).map((product) => (
               <Card
-                style={{ width: "18rem" }}
+                style={{ width: "20rem" }}
                 key={product._id}
                 className="p-2 text-center  m-auto m-md-3"
               >
@@ -82,8 +86,9 @@ export default function Home() {
                     )}
                   </Card.Title>
                 </Card.Body>
-                <Card.Link >
+                <Card.Link className="d-flex justify-content-center gap-3" >
                   <Link to={`/Prod-details/${product._id}`} ><AiOutlineEye /></Link>
+                  <Link onClick={(()=> dispatch(addtoCart(product)))}><AiOutlineShoppingCart/></Link>
                 </Card.Link>
               </Card>
             ))}
@@ -94,6 +99,20 @@ export default function Home() {
           // our product
         }
       </Container>
+      <h2
+            style={{ color: "#85144b" }}
+            className=" bg-white text-uppercase text-center m-3"
+          >
+            newest books
+          </h2>
+        <New/>
+        <h2
+            style={{ color: "#85144b" }}
+            className=" bg-white text-uppercase text-center m-3"
+          >
+            our Promotion
+          </h2>
+        <Promotion/>
     </div>
   );
 }

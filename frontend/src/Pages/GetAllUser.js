@@ -14,7 +14,7 @@ export default function GetAllUser() {
 
   function getUsers() {
     axios
-      .get("http://localhost:8000/user/allUsers", {
+      .get(process.env.REACT_APP_BASE_URL +"/user/allUsers", {
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },

@@ -18,6 +18,7 @@ import OurStore from './Pages/OurStore';
 import ProdDetails from './Pages/Prod-details/ProdDetails';
 import UpdateProd from './Pages/UpdateProd';
 import New from './Pages/New';
+import Promotion from './Pages/Promotion';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/store" element={<OurStore/>}/>
       <Route path="/news" element={<New/>}/>
+      <Route path="/promo" element={<Promotion/>}/>
       <Route path="/about" element={<About/>} />
       <Route path='/AllUsers' element={<GetAllUser/>}/>
       <Route path='/singleProd' element={<SingleProduct/>}/>

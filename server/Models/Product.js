@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
   },
   desc: {
     type: String,
-    required: true
+    //required: true
   },
   price: {
     type: Number,
@@ -24,7 +24,8 @@ const productSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    default: 0
+    required:true ,
+   
   },
   state: {
     type: String,
@@ -37,14 +38,19 @@ const productSchema = new mongoose.Schema({
   },
   category : {
     type:String,
+    required:true,
   },
   editionYear :{
     type:Number,
+    required:true,
   },
   image: {
     type: Object,
-    required: true
+    //required: true
     },
+  codPromo : {
+    type:Number,
+  }
 
 });
 
