@@ -30,8 +30,8 @@ export default function Home() {
         // header section
       }
       <section className="d-lg-flex justify-content-between  d-block">
-        <div >
-          <Image src={banner}   alt="" height="100%"/>;
+        <div>
+          <img src={banner}   alt="" height="100%" responsive/>;
         </div>
         <div className="h-100 border border-2" style={{ height: "600px" }}>
           <video className="d-block w-100" autoPlay a muted>
